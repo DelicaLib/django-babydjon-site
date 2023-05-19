@@ -1,3 +1,3 @@
 # For DataBase
-DBMS - Microsoft SQL Server
-Backend framework - Django
+DBMS - Microsoft SQL Server \
+Backend framework - Django \
