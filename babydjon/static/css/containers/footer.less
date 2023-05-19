@@ -1,0 +1,24 @@
+// main: ../style.less
+
+footer {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-top: auto;
+    background-image: linear-gradient( fade(@bluish-green, 0%), @bluish-green);
+    width: 100%;
+
+    & div {
+        padding: 5px;
+        & a {
+            display: inline-block;
+            margin: 5px;
+            transition: transform 0.5s;
+            &:hover {
+                transform: rotate(-360deg);
+            }
+        }
+    }
+
+}

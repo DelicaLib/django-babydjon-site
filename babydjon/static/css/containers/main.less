@@ -1,0 +1,38 @@
+// main: ../style.less
+
+main {
+    width: 100%;
+    height: auto;
+    padding: 2.5%;
+    padding-left: 2.5%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.main-up {
+    position: fixed;
+    display: none;
+    z-index: 1000;
+    right: 0;
+    top: 0;
+    height: 50px;
+    margin: 10px;
+    cursor: pointer;
+
+    &-arrow {
+        position: fixed;
+        display: none;
+        z-index: 1000;
+        right: 0;
+        top: 0;
+        height: 50px;
+        margin: 10px;
+        cursor: pointer;
+
+        &:hover {
+            margin-top: -5px;
+            transition: .2s linear;
+        }
+    }
+}

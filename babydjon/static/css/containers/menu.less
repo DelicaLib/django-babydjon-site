@@ -1,0 +1,55 @@
+// main: ../style.less
+
+menu {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    
+    & nav {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: @turquoise;
+    border: 2px solid black;
+    height: 50px;
+    width: 95%;
+    min-width: 905px;
+    border-radius: 15px;
+    }
+}
+
+.menu-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 13px;
+    transition: .1s linear;
+
+    &:hover{
+        background-color: @bluish-green;
+        cursor: pointer;
+    }
+
+    &-main {
+    background-color: @pale-blue;
+    height: 100%;
+    width: 100%;
+    border-radius: 14px;
+    transition: .1s linear;
+    margin-left: 0px;
+
+    &:hover{
+        background-color: @bluish-green;
+        cursor: pointer;
+    }
+    }
+}

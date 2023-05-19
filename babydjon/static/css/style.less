@@ -1,0 +1,91 @@
+// compress: true, sourceMap: false
+@import "vars.less";
+
+body {
+    & div.all {
+        width: 100%;
+        height: auto;
+    }
+    position: relative;
+    width: 100%;
+    min-height: 101vh;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: @light-gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+
+
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+* {
+    outline: none;
+    box-sizing: border-box;
+}
+
+.inCart {
+    color: black;
+    background-color: @turquoise;
+    width: 10vw;
+    height: 2.5vw;
+    border-radius: 10px;
+    border: solid 2px black;
+    transition: all .1s linear;
+    &:hover {
+        background-color: desaturate(@turquoise, 20%);
+
+    }
+    &:active {
+        width: 9.5vw;
+        height: 2.3vw;
+        margin-bottom: 0.1vw;
+    }
+}
+::-webkit-scrollbar {
+    width: 19px;
+
+    &-track-piece {
+        background: @bluish-green;
+
+        border-left: 2px solid black;
+    }
+    &-thumb {
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+        background-image: url('../icons/scrollbar-thumb.png');
+        &:hover {
+            background-image: url('../icons/scrollbar-thumb-hover.png');
+        }
+    }
+    
+}
+
+::-webkit-scrollbar:horizontal {
+    display: none;
+    
+}
+
+
+@import "containers/header.less";
+@import "containers/menu.less";
+@import "containers/main.less";
+@import "containers/footer.less";
+@import "containers/slider.less";

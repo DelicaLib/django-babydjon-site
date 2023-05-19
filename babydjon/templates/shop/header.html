@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <title>Бабиджон</title>
+    <link rel="shorcut icon" href="{% static "images/icon_babidjon.png" %}" sizes="16x16">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
+</head>
+{% endblock %}
+<body>
+    <script src="{% static "libs/jquery-3.6.0.min.js" %}"></script>
+    <img src="{% static "icons/icon_up.png" %}" class="main-up">
+    <img src="{% static "icons/icon_up_arrow.png" %}" class="main-up-arrow">
+    <div class="all">
+        {% block header%}
+        <header>
+            <div class="babydjon">
+                <h1 onclick="window.location.href = '/';"> Babydjon </h1>
+            </div>
+            <div class="header-text">
+                <h2 style="width: 300px;">
+                    магазин детских товаров
+                    <p style="font-size: 15px;">самый лучший</p>
+                </h2>
+            </div>
+        </header>
+        {% endblock %}
+
+        {% block menu%}
+        <menu>
+            <nav>
+                {% for item in menu %}
+                    {% if item.name == currPage %}
+                    <button class="menu-text-main">
+                        {{ item.name }}
+                    </button>
+                    {% else %}
+                        {% if item.name == "Контакты" %}
+                        <a class="menu-text" id="contacts">
+                            <p>Контакты</p>
+                        </a>
+                        {% else %}
+                        <a class="menu-text" href="{{item.url}}">
+                            <p>{{item.name}}</p>
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </nav>
+        </menu>
+        {% endblock %}
+        <main>
+        {% block content%}
+        {% endblock %}
+        </main>
+
+
+    </div>
+    {% block footer%}
+    <footer>
+        <div>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><img src="{% static "icons/icon_youtube.png" %}" style="height: 40px;"></a>
+            <a href="https://instagram.com/fdimaff" target="_blank"><img src="{% static "icons/icon_insta.png" %}" style="height: 40px;"></a>
+            <a href="https://t.me/ubludishe223" target="_blank"><img src="{% static "icons/icon_tg.png" %}" style="height: 40px;"></a>
+            <a href="https://vk.com/nikonovdan16" target="_blank"><img src="{% static "icons/icon_vk.png" %}" style="height: 40px;"></a>
+        </div>
+        <div style="display: flex; justify-content: center; height: 150px; width: 400px;">
+            <p style="display: flex; align-items: center; flex-direction: column;"><img src="{% static "icons/icon_gps.png" %}" style="height: 30px; margin: 5px;"> Россия, 400005, Волгоград, пр. им. Ленина, 28 <img src="{% static "icons/icon_phone.png" %}" style="height: 30px; margin: 5px;"> 8-800-555-35-35 </p>
+
+        </div>
+        <div>
+            ©2022 babydjon.ru
+            <p> Разработан ©2022 DelicaLib</p>
+        </div>
+    </footer>
+    {% endblock %}
+    <script src="{% static "libs/p5.min.js" %}"></script>
+    <script src="{% static "libs/vanta.topology.min.js" %}"></script>
+    <script src="{% static "scripts/script.js" %}"></script>
+</body>
+
+</html>

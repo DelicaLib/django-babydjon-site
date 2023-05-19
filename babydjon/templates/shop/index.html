@@ -1,0 +1,48 @@
+{% extends 'shop/header.html' %}
+{% load static %}
+{%block content%}
+<div class="promoution-slider">
+    <button class="slider-move slider-prev"><img src="{% static "icons/down.png" %}" alt="next"></button>
+    <nav class="slider-nav">
+        {% for item in sales%}
+        <button onClick="promoutinoSlideMoveTo({{ item.id }})" class="point {% if item.id == 0 %} point-current {% endif %}" id="{{ item.id }}"><img src="{% static "icons/point.png" %}" alt="point" class="point-btn slider-point"></button>
+        {% endfor %}
+    </nav>
+    <button class="slider-move slider-next"><img src="{% static "icons/down.png" %}" alt="next"></button>
+    <div class="slider">
+        <div class="slider-line">
+            {% for item in sales%}
+            <a href="{{ item.url }}" target="_blank"><img src="{% static item.source %}" alt="{{ item.source }}"></a>
+            {% endfor %}
+        </div>
+    </div>  
+</div>
+
+{% for i in randomSliders%}
+<div class="random-slider" id="{{ i.id }}">
+    <h2 class="random-slider-header">{{ i.header }}</h2>
+    <div class="random-slider-main">
+        <button onClick="randomSliderPrev({{ i.id }})" class="slider-move slider-prev"><img src="{% static "icons/down.png" %}" alt="prev"></button>
+        <button onClick="randomSliderNext({{ i.id }})" class="slider-move slider-next"><img src="{% static "icons/down.png" %}" alt="next"></button>
+        <div class="slider">
+            <div class="slider-line">
+                {% for j in i.slides %}
+                <div class="slide" id="{{ j.id }}">
+                    <a href="{{ j.productUrl }}"><img src="{% static j.imgUrl %}" alt="slide">
+                        <div class="cost">
+                            <b><span>{{ j.cost }} <span class="ruble">₽</span></span></b>
+                        </div>
+                        <div class="name">
+                            <span>{{ j.name }}</span>
+                        </div>
+                    </a>
+                    <button class="inCart">В корзину</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>  
+    </div>
+</div>  
+{% endfor %}
+
+{%endblock%}
