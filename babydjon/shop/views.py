@@ -6,6 +6,7 @@ import shop.contexts as contexts
 indexContext = contexts.indexContext()
 
 def index(request):
+    contexts.getCategoriesAndSubcategories()
     return render(request, "shop/index.html", indexContext)
 
 def pageNotFound(request, exception):

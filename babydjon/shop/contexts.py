@@ -1,14 +1,14 @@
 
 import shop.models as models
 from django.db import connection
+from numpy import array
 
 def menuContext():
     return [{"name": "Главная", "url" : "/"}, 
-        {"name": "Ассортимент", "url" : "https://vk.com/zheleznyakov03"}, 
-        {"name": "Сообщения", "url" : "https://vk.com/zheleznyakov03"}, 
-        {"name": "Друзья", "url" : "https://vk.com/zheleznyakov03"}, 
-        {"name": "Форум", "url" : "https://vk.com/zheleznyakov03"}, 
-        {"name": "Контакты", "url" : ""}, 
+        {"name": "Каталог", "url" : "https://vk.com/zheleznyakov03"}, 
+        {"name": "Адреса", "url" : "https://vk.com/zheleznyakov03"}, 
+        {"name": "Контакты", "url" : ""},
+        {"name": "Заказы", "url" : "https://vk.com/zheleznyakov03"}, 
         {"name": "Корзина", "url" : "https://vk.com/zheleznyakov03"},
         {"name": "Профиль", "url" : "https://vk.com/zheleznyakov03"}]
     
@@ -32,7 +32,7 @@ def getRandomSlideData(category):
         slides.append({
             "id" : item.id,
             "cost" : int(item.Cost),
-            "imgUrl" : "images/1-1.jpg",
+            "imgUrl" : item.ImageUrl,
             "productUrl" : "https://www.youtube.com/watch?v=xfJC8WH7C5I",
             "name" : item.Title}
         )
@@ -50,11 +50,19 @@ def generateRandomSliders():
     return randomSliders
 
 
+def getCategoriesAndSubcategories():
+    categoriesAndSubcategories = {}
+    categories = connection.cursor().execute("select [Title] from [Category] group by [Title] order by [Title] asc")
+    for item in categories:
+        categoriesAndSubcategories[item.Title] = list(connection.cursor().execute(f"select [Subcategory] from [Category] where [Title] = '{item.Title}' group by [Subcategory] order by [Subcategory] asc"))
+    return categoriesAndSubcategories
+
 def indexContext():
     context = {
             "menu" : menuContext(),
             "currPage" : "Главная",
             "sales" : generateSaleSlider(),
-            "randomSliders" : generateRandomSliders()
+            "randomSliders" : generateRandomSliders(),
+            "categoriesAndSubcategories" : getCategoriesAndSubcategories()
             }
     return context

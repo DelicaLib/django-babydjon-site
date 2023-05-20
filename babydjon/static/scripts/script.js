@@ -124,3 +124,37 @@ function randomSliderPrev(id) {
         randomSliderLines[id].style.left = -randomSliderOffset[id] + "px"
     }
 }
+
+
+/* -----------------------------------------------modal categories------------------------------------------------------------ */
+$(".modal-subcategories").css("height", $(".modal-categories").css("height"))
+currentModalLink = $(".modal-link")[0]
+function setCurrentModalLink() {
+    currentModalLink.style.backgroundColor = "rgb(144, 208, 181)"
+    currentModalLink.style.border = "2px solid black"
+    currentModalLink.style.borderRight = "none"
+    currentModalLink.style.borderRadius = "20px 0px 0px 20px"
+    $(".modal-subcategory#"+currentModalLink.id).css("display", "flex")
+    console.log(currentModalLink)
+}
+
+function unsetCurrentModalLink() {
+    currentModalLink.style.backgroundColor = "inherit"
+    currentModalLink.style.border = "none"
+    currentModalLink.style.borderRadius = "0"
+    $(".modal-subcategory#"+currentModalLink.id).css("display", "none")
+}
+setCurrentModalLink()
+$(".modal-link").mouseover(function () { 
+    unsetCurrentModalLink()
+    currentModalLink = this
+    setCurrentModalLink()
+});
+
+function showModalCatalog() {
+    $(".modal").css("display", "flex")
+}
+
+function closeModalCatalog() {
+    $(".modal").css("display", "none")
+}

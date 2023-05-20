@@ -28,7 +28,7 @@
             <div class="slider-line">
                 {% for j in i.slides %}
                 <div class="slide" id="{{ j.id }}">
-                    <a href="{{ j.productUrl }}"><img src="{% static j.imgUrl %}" alt="slide">
+                    <a href="{{ j.productUrl }}"><img src="media/{{ j.imgUrl }}" alt="slide">
                         <div class="cost">
                             <b><span>{{ j.cost }} <span class="ruble">₽</span></span></b>
                         </div>
