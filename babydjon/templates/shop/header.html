@@ -18,31 +18,33 @@
     <img src="{% static "icons/icon_up.png" %}" class="main-up">
     <img src="{% static "icons/icon_up_arrow.png" %}" class="main-up-arrow">
     <div class="modal">
-        <div class="modal-close" onClick="closeModalCatalog()">
-        </div>
-        <div class="modal-categories">
-            {% for item in categoriesAndSubcategories %}
-                <div class="modal-link" id="{% delSpace s=item%}"><a href="/">{{ item }}</a></div>
-            {% endfor %}
-        </div>
-        <div class="modal-subcategories">
-            {% for key, value in categoriesAndSubcategories.items %}
-            {% zero as count%} 
-                <div class="modal-subcategory" id="{% delSpace s=key%}" style="display: none">
-                    {% for item2 in value %}
-                        {%if count == 0 %}
-                            <div class="modal-subcategories-column">
-                        {% endif %}
-                                <div class="modal-sublink"><a href="/">{{ item2.0 }}</a></div>
-                        {%if count >= 5 or forloop.last%}
-                            {% zero as count%}
-                            </div>
-                        {% else %}
-                            {% inc val=count as count%}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
+        <div class="modal-main">
+            <div class="modal-close" onClick="closeModalCatalog()">
+            </div>
+            <div class="modal-categories">
+                {% for item in categoriesAndSubcategories %}
+                    <div class="modal-link" id="{% delSpace s=item%}"><a href="/">{{ item }}</a></div>
+                {% endfor %}
+            </div>
+            <div class="modal-subcategories">
+                {% for key, value in categoriesAndSubcategories.items %}
+                {% zero as count%} 
+                    <div class="modal-subcategory" id="{% delSpace s=key%}" style="display: none">
+                        {% for item2 in value %}
+                            {%if count == 0 %}
+                                <div class="modal-subcategories-column">
+                            {% endif %}
+                                    <div class="modal-sublink"><a href="/">{{ item2.0 }}</a></div>
+                            {%if count >= 5 or forloop.last%}
+                                {% zero as count%}
+                                </div>
+                            {% else %}
+                                {% inc val=count as count%}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <div class="all">

@@ -52,7 +52,7 @@ def generateRandomSliders():
 
 def getCategoriesAndSubcategories():
     categoriesAndSubcategories = {}
-    categories = connection.cursor().execute("select [Title] from [Category] group by [Title] order by [Title] asc")
+    categories = connection.cursor().execute("select top 12 [Title] from [Category] group by [Title] order by [Title] asc")
     for item in categories:
         categoriesAndSubcategories[item.Title] = list(connection.cursor().execute(f"select [Subcategory] from [Category] where [Title] = '{item.Title}' group by [Subcategory] order by [Subcategory] asc"))
     return categoriesAndSubcategories

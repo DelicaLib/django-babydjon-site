@@ -145,16 +145,49 @@ function unsetCurrentModalLink() {
     $(".modal-subcategory#"+currentModalLink.id).css("display", "none")
 }
 setCurrentModalLink()
+
 $(".modal-link").mouseover(function () { 
     unsetCurrentModalLink()
     currentModalLink = this
     setCurrentModalLink()
 });
 
+
 function showModalCatalog() {
-    $(".modal").css("display", "flex")
+    let modalDiv = $(".modal")
+    let modalMain = $(".modal-main")
+    modalDiv.css("display", "flex")
+    let startTime = Date.now()
+    const animationDurationMS = 200
+    let modalTimer = setInterval(function() {
+        let timePassed = Date.now() - startTime;
+    
+        if (timePassed > animationDurationMS) {
+            modalMain.css("bottom", 0 + "%")
+            clearInterval(modalTimer); // закончить анимацию через 2 секунды
+            return;
+        }
+        let top = 100 - Math.round((timePassed / animationDurationMS) * 100)
+        modalMain.css("bottom", top + "%")
+    }, 20)
 }
 
 function closeModalCatalog() {
-    $(".modal").css("display", "none")
+    let startTime = Date.now()
+    let modalMain = $(".modal-main")
+    let modalDiv = $(".modal")
+    const animationDurationMS = 200
+    let modalTimer = setInterval(function() {
+        let timePassed = Date.now() - startTime;
+    
+        if (timePassed > animationDurationMS) {
+            modalMain.css("bottom", (100) + "%")
+            modalDiv.css("display", "none")
+            clearInterval(modalTimer); // закончить анимацию через 2 секунды
+            return;
+        }
+        let top = Math.round((timePassed / animationDurationMS) * 100)
+        modalMain.css("bottom", top + "%")
+    }, 20)
 }
+
