@@ -67,7 +67,7 @@
             <nav>
                 {% for item in menu %}
                     {% if item.name == currPage %}
-                    <button class="menu-text-main">
+                    <button class="menu-text-main" {% if item.name == "Каталог" %} onClick="showModalCatalog()" {% endif %}>
                         {{ item.name }}
                     </button>
                     {% else %}

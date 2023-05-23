@@ -1,0 +1,37 @@
+{% extends 'shop/header.html' %}
+{% load actions %}
+
+{% block content %}
+<div class="auth">
+    <div class="auth-window">
+
+        <p>Регистрация</p>
+        <form action="/register/" method="post">
+            {% csrf_token %}
+            <input type="text" name="firstname" placeholder="Имя" required maxlength="64" 
+            {% if "firstname" in request.POST %} value="{{request.POST.firstname}}"
+            {%endif%}>
+            <input type="text" name="secondname" placeholder="Фамилия" required maxlength="64" 
+            {% if "secondname" in request.POST %} value="{{request.POST.secondname}}"
+            {%endif%}>
+            <input type="email" name="email" placeholder="Почта" required
+            {% if "email" in request.POST %} value="{{request.POST.email}}"
+            {%endif%}>
+            <input type="tel" name="phone" placeholder="Телефон" required
+            {% if "phone" in request.POST %} value="{{request.POST.phone}}"
+            {%endif%}>
+            <input type="login" name="login" placeholder="Логин" required maxlength="32"
+            {% if "login" in request.POST %} value="{{request.POST.login}}"
+            {%endif%}>
+            <input type="password" name="password" placeholder="Пароль" required maxlength="128">
+            <input type="password" name="password1" placeholder="Повторите пароль" required maxlength="128">
+            <button type="submit" name="reg">Зарегистрироваться</button>
+        </form>
+        {% if "errorLogin" in request.session%}
+        <p style="font-size: 20px; color: red;">{{request.session.errorLogin}}</p>
+        {% endif %}
+        <p style="font-size: 20px;">Уже есть аккаунт? - <a href="signin.php">Авторизируйтесь</a></p>
+        {% delAttr val=request.session attr="errorLogin"%}
+    </div>
+</div>
+{% endblock %}

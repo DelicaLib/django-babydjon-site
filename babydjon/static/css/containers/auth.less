@@ -1,0 +1,82 @@
+// main: ../style.less
+
+.auth {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-window {
+        height: auto;
+        width: 500px;
+        background-color: @green;
+        border: 2px solid black;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 30px;
+        padding: 8px;
+        a {
+            text-decoration: none;
+            color: black;
+            border-radius: 2px;
+            background-image: linear-gradient(fade(@pale-blue, 40%), @pale-blue);
+
+            &:hover {
+                background-image: linear-gradient(fade(@bluish-green, 40%), @bluish-green);
+            }
+        }
+        p {
+            margin: 0;
+            margin-bottom: 45px;
+        }
+        form {
+            font-size: 20px;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            select {
+                background-color: lighten(@green, 5%);
+                border: 2px solid black;
+                border-radius: 5px;
+                font-size: inherit;
+                margin: 5px;
+                width: 70%;
+                height: 35px;
+                transition: .1s linear;
+                &:focus {
+                    background-color: @bluish-green;
+                }
+            }
+            input {
+                background-color: lighten(@green, 5%);
+                border: 2px solid black;
+                border-radius: 5px;
+                font-size: inherit;
+                margin: 5px;
+                width: 70%;
+                height: 35px;
+                transition: .1s linear;
+                &:focus {
+                    background-color: @bluish-green;
+                }
+            }
+            button {
+                margin: 5px;    
+                background-color: @pale-blue;
+                padding: 10px;
+                padding-left: 80px;
+                padding-right: 80px;
+                border: 2px solid black;
+                border-radius: 15px;
+                transition: .1s linear;
+                &:hover {
+                    background-color: @bluish-green;
+                }
+            }
+        }
+    }
+}

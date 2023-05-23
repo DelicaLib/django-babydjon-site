@@ -2,13 +2,13 @@
 {% load static %}
 {%block content%}
 <div class="promoution-slider">
-    <button class="slider-move slider-prev"><img src="{% static "icons/down.png" %}" alt="next"></button>
+    <button class="slider-move slider-prev", onClick="promoutionSliderPrev()"><img src="{% static "icons/down.png" %}" alt="next"></button>
     <nav class="slider-nav">
         {% for item in sales%}
         <button onClick="promoutinoSlideMoveTo({{ item.id }})" class="point {% if item.id == 0 %} point-current {% endif %}" id="{{ item.id }}"><img src="{% static "icons/point.png" %}" alt="point" class="point-btn slider-point"></button>
         {% endfor %}
     </nav>
-    <button class="slider-move slider-next"><img src="{% static "icons/down.png" %}" alt="next"></button>
+    <button class="slider-move slider-next", onClick="promoutionSliderNext()"><img src="{% static "icons/down.png" %}" alt="next"></button>
     <div class="slider">
         <div class="slider-line">
             {% for item in sales%}

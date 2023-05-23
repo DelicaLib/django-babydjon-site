@@ -48,7 +48,7 @@ document.querySelector(".main-up-arrow").addEventListener("click", function(item
 let promoutionSliderOffset = 0
 const promoutionSliderLine = document.querySelector(".promoution-slider .slider-line")
 let promoutionCurrentSlideId = 0
-document.querySelector(".promoution-slider .slider-next").addEventListener("click", function() {
+function promoutionSliderNext() {
     const slides = $(".promoution-slider .slider-line img")
     if (slides.length != 0) {
         const promoutionSlideWidth = slides[0].offsetWidth
@@ -62,9 +62,8 @@ document.querySelector(".promoution-slider .slider-next").addEventListener("clic
         $(".promoution-slider #" + promoutionCurrentSlideId)[0].className = "point point-current"
         promoutionSliderLine.style.left = -promoutionSliderOffset + "px"
     }
-})
-
-document.querySelector(".promoution-slider .slider-prev").addEventListener("click", function() {
+}
+function promoutionSliderPrev() {
     const slides = $(".promoution-slider .slider-line img")
     if (slides.length != 0) {
         const promoutionSlideWidth = slides[0].offsetWidth
@@ -78,7 +77,7 @@ document.querySelector(".promoution-slider .slider-prev").addEventListener("clic
         $(".promoution-slider #" + promoutionCurrentSlideId)[0].className = "point point-current"
         promoutionSliderLine.style.left = -promoutionSliderOffset + "px"
     }
-})
+}
 
 function promoutinoSlideMoveTo(number) {
     const slides = $(".promoution-slider .slider-line img")
@@ -135,7 +134,6 @@ function setCurrentModalLink() {
     currentModalLink.style.borderRight = "none"
     currentModalLink.style.borderRadius = "20px 0px 0px 20px"
     $(".modal-subcategory#"+currentModalLink.id).css("display", "flex")
-    console.log(currentModalLink)
 }
 
 function unsetCurrentModalLink() {

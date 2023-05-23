@@ -1,0 +1,23 @@
+{% extends 'shop/header.html' %}
+{% load actions %}
+
+{% block content %}
+<div class="auth">
+    <div class="auth-window">
+
+        <p>Авторизация</p>
+        <form action="/login/" method="post">
+            {% csrf_token %}
+            <input type="login" name="login" placeholder="Логин" required {%if "login" in request.POST%} 
+            value = "{{request.POST.login}}" {% endif%} >
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit" name="auth">Войти</button>
+        </form>
+        {% if "errorLogin" in request.session%}
+        <p style="font-size: 20px; color: red;">{{request.session.errorLogin}}</p>
+        {% endif %}
+        <p style="font-size: 20px;">Нету аккаунта? - <a href="/register/">Зарегистрируйтесь</a></p>
+        {% delAttr val=request.session attr="errorLogin"%}
+    </div>
+</div>
+{% endblock %}

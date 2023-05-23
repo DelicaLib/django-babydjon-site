@@ -1,4 +1,6 @@
 from django import template
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 register = template.Library()
 
 @register.simple_tag
@@ -16,3 +18,9 @@ def setVal(val):
 @register.simple_tag
 def delSpace(s):
     return s.replace(" ", "")
+
+@register.simple_tag
+def delAttr(val, attr):
+    if attr in val:
+        del val[attr]
+    return ""

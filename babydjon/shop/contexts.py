@@ -5,12 +5,12 @@ from numpy import array
 
 def menuContext():
     return [{"name": "Главная", "url" : "/"}, 
-        {"name": "Каталог", "url" : "https://vk.com/zheleznyakov03"}, 
-        {"name": "Адреса", "url" : "https://vk.com/zheleznyakov03"}, 
+        {"name": "Каталог", "url" : ""}, 
+        {"name": "Адреса", "url" : "/addresses/"}, 
         {"name": "Контакты", "url" : ""},
-        {"name": "Заказы", "url" : "https://vk.com/zheleznyakov03"}, 
-        {"name": "Корзина", "url" : "https://vk.com/zheleznyakov03"},
-        {"name": "Профиль", "url" : "https://vk.com/zheleznyakov03"}]
+        {"name": "Заказы", "url" : "/orders/"}, 
+        {"name": "Корзина", "url" : "/cart/"},
+        {"name": "Профиль", "url" : "/profile/"}]
     
 def generateSaleSlider():
     return [{"source" : "images/sale1.jpg",
@@ -63,6 +63,48 @@ def indexContext():
             "currPage" : "Главная",
             "sales" : generateSaleSlider(),
             "randomSliders" : generateRandomSliders(),
+            "categoriesAndSubcategories" : getCategoriesAndSubcategories()
+            }
+    return context
+
+
+def productContext():
+    context = {
+            "menu" : menuContext(),
+            "currPage" : "Каталог",
+            "categoriesAndSubcategories" : getCategoriesAndSubcategories(),
+            "productId" : 0
+            }
+    return context
+
+def profileContext():
+    context = {
+            "menu" : menuContext(),
+            "currPage" : "Профиль",
+            "categoriesAndSubcategories" : getCategoriesAndSubcategories()
+            }
+    return context
+
+def cartContext():
+    context = {
+            "menu" : menuContext(),
+            "currPage" : "Корзина",
+            "categoriesAndSubcategories" : getCategoriesAndSubcategories()
+            }
+    return context
+
+def ordersContext():
+    context = {
+            "menu" : menuContext(),
+            "currPage" : "Заказы",
+            "categoriesAndSubcategories" : getCategoriesAndSubcategories()
+            }
+    return context
+
+def addressesContext():
+    context = {
+            "menu" : menuContext(),
+            "currPage" : "Адреса",
             "categoriesAndSubcategories" : getCategoriesAndSubcategories()
             }
     return context
