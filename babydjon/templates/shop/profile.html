@@ -1,5 +1,28 @@
 {% extends 'shop/header.html' %}
+{% load static %}
 
 {% block content %}
-
+<div class="profile-main">
+    <div class="profile-info">
+        <div class="profile-info-first">
+            <p class="user">Пользователь</p>
+        </div>
+        <div class="about-user">
+            <h3 class="username">{{ user.FullName }}</h3>
+            <div class="user-info">
+                <div style="display: flex; flex-direction: column;">
+                    <div class="user-mail">
+                        <img src="{% static "icons/icon_mail.png" %}" class="user-mail-icon" alt="">
+                        <p>Почта: {{user.Email}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="avatar-buttons">
+        <form action="/profile/" method="post">
+            {% csrf_token %}
+            <button type="submit" class="avatar-img--change" name="signout">Выйти</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

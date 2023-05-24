@@ -25,7 +25,13 @@ def profile(request):
     if "is_login" not in request.session or not request.session["is_login"]:
         request.session["loginContext"] = "Профиль"
         return HttpResponseRedirect("/login/")
-    return render(request, "shop/product.html", profileContext)
+    if "signout" in request.POST:
+        del request.session["is_login"]
+        del request.session["userId"]
+        return HttpResponseRedirect("/login/")
+    context = profileContext.copy()
+    context["user"] = myDatabase.getUserData(request.session["userId"])
+    return render(request, "shop/profile.html", context)
 
 def cart(request):
     if "is_login" not in request.session or not request.session["is_login"]:
@@ -58,7 +64,7 @@ def login(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     if "loginContext" not in request.session:
         request.session["loginContext"] = "Профиль"
-    context = profileContext
+    context = profileContext.copy()
     context["currPage"] = request.session["loginContext"]
     del request.session["loginContext"]
     return render(request, "shop/authorization.html", context)
@@ -77,7 +83,7 @@ def registration(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     if "loginContext" not in request.session:
         request.session["loginContext"] = "Профиль"
-    context = profileContext
+    context = profileContext.copy()
     context["currPage"] = request.session["loginContext"]
     del request.session["loginContext"]
     return render(request, "shop/registration.html", context)
