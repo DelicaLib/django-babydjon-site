@@ -11,15 +11,23 @@ cartContext = contexts.cartContext()
 ordersContext = contexts.ordersContext()
 addressesContext = contexts.addressesContext()
 
+
+
 def index(request):
     return render(request, "shop/index.html", indexContext)
+
+
 
 def product(request, productid):
     productContext["productId"] = productid
     return render(request, "shop/product.html", productContext)
 
+
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound("<h1>Страница не найдена</h1>")
+
+
 
 def profile(request):
     if "is_login" not in request.session or not request.session["is_login"]:
@@ -29,9 +37,24 @@ def profile(request):
         del request.session["is_login"]
         del request.session["userId"]
         return HttpResponseRedirect("/login/")
+    if "settings" in request.POST:
+        result = myDatabase.setUserSettings(request.session["userId"], request.POST["fullName"], request.POST["email"], request.POST["phone"], request.POST["address"], request.POST["password"], request.POST["newPassword"], request.POST["newPasswordRepeat"])
+        if result != "0":
+            request.session["errorSetting"] = result
+            request.session["is_settings"] = True
+            return HttpResponseRedirect("/profile/")
+        else:
+            if "is_settings" in request.session:
+                del request.session["is_settings"]
+            return HttpResponseRedirect("/profile/")
     context = profileContext.copy()
     context["user"] = myDatabase.getUserData(request.session["userId"])
+    if "createCard" in request.POST:
+        myDatabase.createBonusCard(context["user"].Id)
+        return HttpResponseRedirect("/profile/")
     return render(request, "shop/profile.html", context)
+
+
 
 def cart(request):
     if "is_login" not in request.session or not request.session["is_login"]:
@@ -39,14 +62,20 @@ def cart(request):
         return HttpResponseRedirect("/login/")
     return render(request, "shop/cart.html", cartContext)
 
+
+
 def orders(request):
     if "is_login" not in request.session or not request.session["is_login"]:
         request.session["loginContext"] = "Заказы"
         return HttpResponseRedirect("/login/")
     return render(request, "shop/orders.html", ordersContext)
 
+
+
 def addresses(request):
     return render(request, "shop/addresses.html", addressesContext)
+
+
 
 def login(request):
     if "auth" in request.POST:
@@ -68,6 +97,8 @@ def login(request):
     context["currPage"] = request.session["loginContext"]
     del request.session["loginContext"]
     return render(request, "shop/authorization.html", context)
+
+
 
 def registration(request):
     if "reg" in request.POST:

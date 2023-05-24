@@ -1,28 +1,131 @@
 {% extends 'shop/header.html' %}
 {% load static %}
+{% load actions%}
+
+{% block content-modal %}
+<div class="modal profile-modal" {% if "is_settings" in request.session %} style="display: flex" {% endif %}>
+        <div class="modal-close" onClick="settingsClose()">
+        </div>
+        <div class="settings-profile {% if "is_settings" in request.session %}active{% endif %}">
+            {% delAttr val=request.session attr="is_settings"%}
+            <div>
+                <form action="/profile/" class="setting-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="setting-form">
+                        <div>
+                            <label for="fullName">ФИО:</label>
+                            <input type="text" name="fullName" class="new-news-header setting-input" placeholder="Фамилия Имя Отчество" maxlength="64"
+                            {% if "fullName" in request.POST %} value = "{{request.POST.fullName}}" {% endif %}>
+                        </div>
+                        <div>
+                            <label for="email">Почта:</label>
+                            <input type="email" name="email" class="new-news-header setting-input" placeholder="Почта"
+                            {% if "email" in request.POST %} value = "{{request.POST.email}}" {% endif %}>
+                        </div>
+                        <div>
+                            <label for="phone">Номер телефона:</label>
+                            <input type="tel" name="phone" class="new-news-header setting-input" placeholder="Телефон"
+                            {% if "phone" in request.POST %} value = "{{request.POST.phone}}" {% endif %}>
+                        </div>
+                        <div>
+                            <label for="address">Адрес доставки:</label>
+                            <input type="tel" name="address" class="new-news-header setting-input" placeholder="Адрес доставки"
+                            {% if "address" in request.POST %} value = "{{request.POST.address}}" {% endif %}>
+                        </div>
+                        <div>
+                            <label for="password">Введите пароль:</label>
+                            <input type="password" name="password" class="new-news-header setting-input" required placeholder="Пароль">
+                        </div>
+                        <div>
+                            <label for="newPassword">Введите новый пароль:</label>
+                            <input type="password" name="newPassword" class="new-news-header setting-input" placeholder="Новый пароль">
+                        </div>
+                        <div>
+                            <label for="newPasswordRepeat">Повторите новый пароль:</label>
+                            <input type="password" name="newPasswordRepeat" class="new-news-header setting-input" placeholder="Повтор пароля">
+                        </div>
+                        <div>
+                            {% if "errorSetting" in request.session%}
+                            <p style="color: red; font-size: 20px; margin-right: 10px;">{{ request.session.errorSetting }}</p>
+                            {% endif %}
+                            {% delAttr val=request.session attr="errorSetting"%}
+                            <button type="submit" name="settings">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+</div>
+{% endblock %}
 
 {% block content %}
-<div class="profile-main">
-    <div class="profile-info">
-        <div class="profile-info-first">
-            <p class="user">Пользователь</p>
+<div class="profile">
+    <div class="bonus-card">
+        <h3>Бонусная карта</h3>
+        <div class="bonus-card-about">
+            {% if user.BonusCardNumber is None %}
+                <p class="noneCard">Отсутствует</p>
+            {% else %}
+                <p class="bonus-card-number">№{{ user.BonusCardNumber.Number }}</p>
+                <p class = "bonus-card-type">Тип карты: <span style="color: 
+                {% if user.BonusCardNumber.Type == "Стандартная"%}
+                    dimgrey
+                {% else %}
+                    {% if user.BonusCardNumber.Type == "Золотая"%}
+                        coral
+                    {% else %}
+                        {% if user.BonusCardNumber.Type == "Платиновая"%}
+                            blueviolet
+                        {% else %}
+                            red
+                        {% endif %}
+                    {% endif %}
+                {% endif %}"> {{ user.BonusCardNumber.Type }} </span></p>
+                <p class="bonus-card-balance">Бонусы: {{ user.BonusCardNumber.Bonus }} <span><img src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span></p>
+            {% endif %}
         </div>
-        <div class="about-user">
-            <h3 class="username">{{ user.FullName }}</h3>
-            <div class="user-info">
-                <div style="display: flex; flex-direction: column;">
-                    <div class="user-mail">
-                        <img src="{% static "icons/icon_mail.png" %}" class="user-mail-icon" alt="">
-                        <p>Почта: {{user.Email}}</p>
+        {% if user.BonusCardNumber is None %}
+        <div class="profile-buttons-reg">
+            <form action="/profile/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="profile-buttons-button" name="createCard">Зарегистрировать бонусную карту</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    <div class="profile-main">
+        <div class="profile-info">
+            <div class="profile-info-first">
+                <p class="user">Пользователь</p>
+            </div>
+            <div class="about-user">
+                <h3 class="username">{{ user.FullName }}</h3>
+                <div class="user-info">
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="user-mail">
+                            <img src="{% static "icons/icon_mail.png" %}" class="user-mail-icon" alt="">
+                            <p>Почта: {{user.Email}}</p>
+                        </div>
+                        <div class="user-mail">
+                            <img src="{% static "icons/icon_phone.png" %}" class="user-mail-icon" alt="">
+                            <p>Номер телефона: {{user.PhoneNumber}}</p>
+                        </div>
+                        <div class="user-mail">
+                            <img src="{% static "icons/icon_earth.png" %}" class="user-mail-icon" alt="">
+                            <p>Адрес доставки: {% if user.Address is None %}Отсутствует{%else%}{{user.Address}}{% endif %}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="avatar-buttons">
-        <form action="/profile/" method="post">
-            {% csrf_token %}
-            <button type="submit" class="avatar-img--change" name="signout">Выйти</button>
-        </form>
+        <div class="profile-buttons">
+            <button class="profile-buttons-button" onClick="settingsCall()" tabindex="-1">Изменить профиль</button>
+            <form action="/profile/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="profile-buttons-button" name="signout">Выйти</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

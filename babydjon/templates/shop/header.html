@@ -17,7 +17,7 @@
     <script src="{% static "libs/jquery-3.6.0.min.js" %}"></script>
     <img src="{% static "icons/icon_up.png" %}" class="main-up">
     <img src="{% static "icons/icon_up_arrow.png" %}" class="main-up-arrow">
-    <div class="modal">
+    <div class="modal category-modal">
         <div class="modal-main">
             <div class="modal-close" onClick="closeModalCatalog()">
             </div>
@@ -47,6 +47,8 @@
             </div>
         </div>
     </div>
+    {% block content-modal %}
+    {% endblock %}
     <div class="all">
         {% block header%}
         <header>

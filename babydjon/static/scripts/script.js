@@ -152,7 +152,7 @@ $(".modal-link").mouseover(function () {
 
 
 function showModalCatalog() {
-    let modalDiv = $(".modal")
+    let modalDiv = $(".modal.category-modal")
     let modalMain = $(".modal-main")
     modalDiv.css("display", "flex")
     let startTime = Date.now()
@@ -173,7 +173,7 @@ function showModalCatalog() {
 function closeModalCatalog() {
     let startTime = Date.now()
     let modalMain = $(".modal-main")
-    let modalDiv = $(".modal")
+    let modalDiv = $(".modal.category-modal")
     const animationDurationMS = 200
     let modalTimer = setInterval(function() {
         let timePassed = Date.now() - startTime;
@@ -189,3 +189,17 @@ function closeModalCatalog() {
     }, 20)
 }
 
+
+
+/* -----------------------------------------------settings------------------------------------------------------------ */
+
+function settingsCall() {
+    $(".modal.profile-modal").css("display", "block");
+    $(".settings-profile").addClass('active');
+
+}
+
+function settingsClose() {
+    $(".modal.profile-modal").css("display", "none");
+    $(".settings-profile.active").removeClass('active');
+}

@@ -1,0 +1,214 @@
+// main: ../style.less
+
+.settings-profile {
+    display: none;
+    
+    position: absolute;
+    &.active {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    padding: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: auto;
+    z-index: 1001;
+    background-color: @green;
+    border: 2px solid black;
+    border-radius: 15px;
+    & > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
+.setting-input {
+    border-radius: 0 15px 15px 0;
+    margin: 0;
+    margin-left: 10px;
+    width: 50%;
+}
+
+div.setting-form {
+    display: block;
+    width: 100%;
+    
+    
+    div {
+        margin-bottom: 20px;
+        width: auto;
+        padding: 0;
+        height: auto;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        label {
+            font-size: 20px;
+            margin: 0;
+        }
+        & button {
+            background-color: @pale-blue;
+            width: 150px;
+            padding: 5px;
+            font-size: 20px;
+            border: 2px solid black;
+            border-radius: 15px;
+            justify-self: center;
+    
+            &:hover {
+                background-color: @bluish-green;
+            }
+        }
+    }
+}
+
+form.setting-form {
+    display: flex;
+    width: 100%;
+}
+
+.setting-avatar {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    input {
+        border: 2px solid black;
+        border-radius: 5px;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    img.avatar-img--photo {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.admin-settings {
+    height: auto;
+    width: auto;
+    background-color: @turquoise;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin-right: 10px;
+    button {
+        padding: 20px;
+        font-size: 20px;
+        transition: .2s;
+        border-radius: 12px;
+        &:hover {
+            background-color: @pale-blue;
+        }
+    }
+}
+
+.privilege-settings {
+    display: none;
+    
+    position: absolute;
+    &.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+        overflow-y: scroll;
+    }
+    padding: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: auto;
+    z-index: 20;
+    background-color: @green;
+    border: 2px solid black;
+    border-radius: 15px;
+    & > form:not(.search-people) {
+        width: 100%;
+    }
+}
+
+
+.material-symbols-outlined {
+    &.search-button {
+        margin-top: 5px;
+        font-size: 50px;
+        background-color: @turquoise;
+        border: 2px solid black;
+        border-radius: 15px;
+    }
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.search-people {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    p {
+        margin: 10px;
+    }
+    input {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: @green;
+        border: 2px solid black;
+        border-radius: 5px;
+        font-size: 20px;
+        width: 100%;
+    }
+}
+
+.finded-people {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    p {
+        width: 33%;
+    }
+    &-button {
+        display: flex;
+        width: 100%;
+        font-size: 20px;
+        justify-content: center;
+        button {
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: @turquoise;
+            border: 2px solid black;
+            border-radius: 15px;
+            transition: .1s;
+            &:hover {
+                background-color: @pale-blue;
+            }
+        }
+    }
+
+    select {
+        background-color: @green;
+        border: 2px solid black;
+        border-radius: 5px;
+        width: 33%;
+        height: 30px;
+        transition: .1s;
+        font-size: 20px;
+            &:hover {
+                background-color: @bluish-green;
+            }
+    }
+}
+
+.privilege-close {
+    width: 100%;
+}

@@ -30,7 +30,7 @@
         {% if "errorLogin" in request.session%}
         <p style="font-size: 20px; color: red;">{{request.session.errorLogin}}</p>
         {% endif %}
-        <p style="font-size: 20px;">Уже есть аккаунт? - <a href="signin.php">Авторизируйтесь</a></p>
+        <p style="font-size: 20px;">Уже есть аккаунт? - <a href="/login/">Авторизируйтесь</a></p>
         {% delAttr val=request.session attr="errorLogin"%}
     </div>
 </div>

@@ -1,0 +1,46 @@
+// main: ../style.less
+
+.overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.292);
+    backdrop-filter: blur(3px);
+    z-index: 10;
+}
+
+
+.new-news-header {
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 20px;
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 15px 0 0 15px;
+    background-color: @green;
+
+    &:focus {
+        background-color: @bluish-green;
+        border: 2px solid black;
+    }
+
+}
+
+input[type="file"]{
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    text-align: start !important;
+    padding: initial;
+    border: 2px solid gray;
+    overflow: hidden !important;
+    
+}
