@@ -1,6 +1,21 @@
 {% extends 'shop/header.html' %}
 
 {% block content %}
-    {{ productId }}
-
+    <div class="product">
+        <div class="product-image">
+            <img src="/media/{{ product.ImageUrl }}" alt="Product img">
+        </div>
+        <div class="product-main">
+            <div class="product-topinfo">
+                <h3 class="product-vendor">{{ product.Producer.CompanyName }}</h3>
+                <h2 class="product-title">{{ product.Title }}</h2>
+                <p class="product-cost">{{ product.Cost }}<span class="ruble"> ₽</span></p>
+            </div>
+            <div class="product-bottominfo">
+                <p class="product-color">Цвет: {{product.Color}}</p>
+                <div class="sizes">
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

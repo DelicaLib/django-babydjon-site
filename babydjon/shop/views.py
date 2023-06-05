@@ -12,14 +12,14 @@ ordersContext = contexts.ordersContext()
 addressesContext = contexts.addressesContext()
 
 
-
 def index(request):
     return render(request, "shop/index.html", indexContext)
 
 
 
 def product(request, productid):
-    productContext["productId"] = productid
+    productContext["product"] = myDatabase.getProductData(productId=productid)
+    productContext["sizes"] = myDatabase.getSizes(productContext["product"])
     return render(request, "shop/product.html", productContext)
 
 
@@ -60,7 +60,11 @@ def cart(request):
     if "is_login" not in request.session or not request.session["is_login"]:
         request.session["loginContext"] = "Корзина"
         return HttpResponseRedirect("/login/")
-    return render(request, "shop/cart.html", cartContext)
+    context = cartContext.copy()
+    context["cart"] = myDatabase.getCartData(request.session["userId"])
+    if len(context["cart"]["data"]) == 0:
+        context["cart"]["data"] = None
+    return render(request, "shop/cart.html", context)
 
 
 

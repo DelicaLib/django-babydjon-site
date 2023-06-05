@@ -1,5 +1,103 @@
 {% extends 'shop/header.html' %}
+{% load static %}
+
+{% block extraScripts %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=88067108-2f4e-4eae-9600-5b660dcfa166&lang=ru_RU" type="text/javascript">
+</script>
+{% endblock %}
 
 {% block content %}
+{% if cart.data == None %}
+    <div class="empty-cart">
+        <b>Корзина пуста</b>
+    </div>
 
+{% else %}
+    <div class="cart">
+        <div class="cart-main">
+            <div class="cart-main-controls">
+                <div class="check-all">
+                    <input type="checkbox" name="check-all" id="check-all" class="cart-input" onClick="checkAll()">
+                    <label for="check-all">Выбрать всё</label>
+                </div>
+                <button class="delete-checked" id="delete-checked">
+                    <span>Удалить выбранные</span>
+                </button>   
+            </div>
+            {% for item in cart.data%}
+            <div class="cart-main-product" id="product&id={{item.ProductId}}">
+                <div class="cart-main-product-left">
+                    <div class="product-check">
+                        <input type="checkbox" name="check-one" id="check&id={{item.ProductId}}" class="cart-input">
+                    </div>
+                    <a class="cart-main-product-image" href="/product/{{item.ProductId}}"><img src="/media/{{item.ProductImg}}"></a>
+                    <div class="cart-main-product-info">
+                        <div class="top-info">
+                            <h2 class="product-title">{{item.ProductTitle}}</h2>
+                        </div>
+                        <button class="delete-current" id="delete&id={{item.ProductId}}">Удалить</button>
+                    </div>
+                </div>
+                <div class="cart-main-product-right">
+                    <div class="cart-main-product-count">
+                        <label for="product-count">Количество:</label>
+                        <input type="number" min="1" max="10" id="product-count" name="product-count" value="{{item.Count}}">
+                    </div>
+                    <p class="product-cost">{{item.Cost}}<span class="ruble"> ₽</span></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="cart-info">
+            <div class="cart-info-user">
+                <p class="balance"> Ваш баланс: {{cart.user.balance}} <span class="ruble">₽</span></p>
+                <p class="bonus"> Бонусов:{% if cart.user.bonus is None%} отсутствует карта{% else %} {{cart.user.bonus}} <span><img class="bonus-icon" src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span>{%endif%}</p>
+                <div class="bonus-input">
+                    <input type="checkbox" name="useBonusCard" id="useBonusCard" class="cart-input" {% if cart.user.bonus is None %}disabled{% endif %}>
+                    <label for="useBonusCard">Использовать бонусную карту</label>
+                </div>
+            </div>
+            <div class="cart-info-money">
+                <p class="yourcart">Ваша корзина: <span>n товаров</span></p>
+                <p class="cost">Товары: <span>0<span class="ruble"> ₽</span></span></p>
+                <p class="bonus">Бонусы: <span>0<img class="bonus-icon" src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span></p>
+            </div>
+            <div class="cart-info-buy">
+                <p class="sum">Сумма: <span>0<span class="ruble"> ₽</span></span></p>
+                <select name="deliveryType" id="deliveryType" onChange="optionChange(this)">
+                    <option value="">Выберите тип доставки</option>
+                    <option value="self-delivery">Самовывоз</option>
+                    <option value="courier">Курьерская</option>
+                    <option value="urgentCourier">Срочная курьерская</option>
+                    <option value="mail">Почта России</option>
+                </select>
+                <div class="delivery-address">
+                    <div class="delivery-address-header">
+                        <input type="text" class="delivery-address-suggest" id="suggest" class="input" placeholder="Введите адрес">
+                        <button type="submit" class="delivery-address-button profile-buttons-button">Проверить</button>
+                    </div>
+                    <p class="delivery-address-notice">Адрес не найден</p>
+                    <div class="delivery-address-map" id="map"></div>
+                    <div class="delivery-address-messages">
+                        <div class="message-header"></div>
+                        <div class="message"></div>
+                    </div>
+                </div>
+                <div class="offline-addresses">
+                    <p>Выберете магазин:</p>
+                    <div class="delivery-address-map" id="for-offline-map"></div>
+                    <p>Вы выбрали: <span id="offline-address">Ничего</span></p>
+                </div>
+                <button class="profile-buttons-button" name="doBuy" id="doBuy">Оформить заказ</button>
+                <script>
+                    let offlineStoreAddresses = [{% for i in cart.addresses %} "{{ i }}", {% endfor %} ""]
+                    offlineStoreAddresses.pop()
+                </script>
+                <script src="{% static "scripts/addressValidation.js" %}" type="text/javascript"></script>
+                <script src="{% static "scripts/cart.js" %}" type="text/javascript"></script>
+                <script src="{% static "scripts/OfflineAddresses.js" %}" type="text/javascript"></script>
+            </div>
+        </div>
+    </div>  
+{% endif %}
 {% endblock %}

@@ -203,3 +203,5 @@ function settingsClose() {
     $(".modal.profile-modal").css("display", "none");
     $(".settings-profile.active").removeClass('active');
 }
+
+/* -----------------------------------------------deliveryAddressValidation------------------------------------------------------------ */

@@ -107,7 +107,7 @@ class Order(models.Model):
     Retrieved = models.BooleanField(null=True, verbose_name="Retrieved", db_column="Retrieved")
     CostProduct = models.PositiveIntegerField(default=0, null=True, verbose_name="CostProduct", db_column="CostProduct")
     Bonuses = models.PositiveIntegerField(default=0, null=True, verbose_name="Bonuses", db_column="Bonuses")
-    
+    Address = models.CharField(max_length=200, null=True, verbose_name="Address", db_column="Address")
     def __str__(self):
         return self.Id
     class Meta:
