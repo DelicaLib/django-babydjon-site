@@ -24,7 +24,7 @@ def generateSaleSlider():
         "id" : 2}]
 
 def getCategories():
-    return models.Category.objects.raw("select top 4 ROW_NUMBER() OVER(ORDER BY NEWID() ASC) - 1 as id ,[Title] from [Category] group by [Title]")
+    return connection.cursor().execute("select top 4 ROW_NUMBER() OVER(ORDER BY NEWID() ASC) - 1 as id ,[Title] from [Category] group by [Title]").fetchall()
 
 def getRandomSlideData(category):
     slides = []
@@ -43,8 +43,8 @@ def generateRandomSliders():
     randomSlidersFromSql = getCategories()
     for item in randomSlidersFromSql:
         randomSliders.append({
-            "id" : item.id,
-            "header" : item.Title,
+            "id" : item[0],
+            "header" : item[1],
             "slides" : getRandomSlideData(item.Title)
         })
     return randomSliders

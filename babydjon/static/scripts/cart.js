@@ -78,3 +78,64 @@ function deleteOne(productId) {
 
     })
 }
+
+/-------------------------------------------------------update cost-----------------------------------------------------/
+
+function updateCost() {
+    var checkedProducts = $("input[name='check-one']:checked")
+    var cartProducts = []
+    checkedProducts.each(function() {
+        var currId = Number($(this).prop("id").replace("check_id", ""))
+        cartProducts.push(currId)
+    })
+    bonusCard = $("input#useBonusCard").prop("checked") ? 1 : 0
+    $.ajax({
+        url: "/cart/updateCost/",
+        method: "GET",
+        dataType: "json",
+        data: {cartProducts: "["+cartProducts+"]", bonusCard: bonusCard},
+        success: function(response) {
+            console.log(response.status)
+            $(".cart-info-money p.cost span#num").text(response.cost)
+            $(".cart-info-money p.bonus span#num").text(response.bonuses)
+            $(".cart-info-buy p.sum span#num").text(response.sumCost)
+        },
+        error: function(response) {
+            console.log(response.responseJSON.errors)
+        }
+
+    })
+
+}
+
+$("input#product-count").on("change", function() {
+
+    count = Number($(this).val())
+    if (count > Number($(this).prop("max")))
+    {
+        $(this).val($(this).prop("max"))
+    }
+    if (count < Number($(this).prop("min")))
+    {
+        $(this).val($(this).prop("min"))
+    }
+    count = Number($(this).val())
+    productElement = $(this).parent().parent().parent()
+    productId = productElement.prop("id").replace("product_id", "")
+    $.ajax({
+        url: "/cart/updateCountInCart/",
+        method: "GET",
+        dataType: "json",
+        data: {productId: productId, count: count},
+        success: function(response) {
+            console.log(response.status)
+            $("#product_id" + productId + " .product-cost span.cost").text(response.cost)
+            updateCost()
+        },
+        error: function(response) {
+            console.log(response.responseJSON.errors)
+            location.reload()
+        }
+
+    })
+})

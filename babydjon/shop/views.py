@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse, Http404
 import shop.contexts as contexts
 import shop.database as myDatabase
+import json as json
 
 indexContext = contexts.indexContext()
 productContext = contexts.productContext()
@@ -146,5 +147,44 @@ def deleteProductsFromCart(request):
             return JsonResponse({"status" : "OK", "deleted" : deletedCount}, status=200)
         else:
             return JsonResponse({"errors" : "Ошибка при удалении"}, status=400)
+    else:
+        raise Http404()
+    
+def updateCost(request):
+    if request.method == "GET" and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        cartProducts = json.loads(request.GET["cartProducts"])
+        useBonusCard = json.loads(request.GET["bonusCard"])
+        if len(cartProducts) == 0:
+            return JsonResponse({"status" : "OK", "cost" : 0, "bonuses" : 0, "sumCost" : 0}, status=200)
+        cost = int(myDatabase.getSumCostInCart(cartProducts, request.session["userId"]))
+        bonuses = 0
+        sumCost = cost
+        myDatabase.getBonusCardBalance(request.session["userId"])
+        if useBonusCard == 0:
+            bonuses = "+" + str(int(float(cost) * 0.05))
+        else:
+            bonuses = myDatabase.getBonusCardBalance(request.session["userId"])
+            if (bonuses[0] == "-"):
+                bonusesNum = abs(int(bonuses))
+                if cost <= bonusesNum:
+                    sumCost = 0
+                    bonuses = "-" + str(cost)
+                else:
+                    sumCost -= bonusesNum
+        
+                
+        return JsonResponse({"status" : "OK", "cost" : cost, "bonuses" : bonuses, "sumCost" : sumCost}, status=200)
+    else:
+        raise Http404()
+    
+def updateCountInCart(request):
+    if request.method == "GET" and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        productId = json.loads(request.GET["productId"])
+        count = json.loads(request.GET["count"])
+        updateInfo = myDatabase.updateCartCount(request.session["userId"], productId, count)
+        if (updateInfo["updateCount"] == 0):
+            return JsonResponse({"errors" : "Ошибка при изменении"}, status=400)
+        
+        return JsonResponse({"status" : "OK", "cost" : updateInfo["cost"]}, status=200)
     else:
         raise Http404()

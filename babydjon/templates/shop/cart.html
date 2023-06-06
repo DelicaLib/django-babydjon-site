@@ -17,7 +17,7 @@
         <div class="cart-main">
             <div class="cart-main-controls">
                 <div class="check-all">
-                    <input type="checkbox" name="check-all" id="check-all" class="cart-input" onClick="checkAll()">
+                    <input type="checkbox" name="check-all" id="check-all" class="cart-input" onClick="checkAll(); updateCost()">
                     <label for="check-all">Выбрать всё</label>
                 </div>
                 <button class="delete-checked" id="delete-checked" onClick="deleteChecked()">
@@ -29,7 +29,7 @@
             <div class="cart-main-product" id="product_id{{item.ProductId}}">
                 <div class="cart-main-product-left">
                     <div class="product-check">
-                        <input type="checkbox" name="check-one" id="check_id{{item.ProductId}}" class="cart-input">
+                        <input type="checkbox" name="check-one" id="check_id{{item.ProductId}}" class="cart-input" onClick="updateCost()">
                     </div>
                     <a class="cart-main-product-image" href="/product/{{item.ProductId}}"><img src="/media/{{item.ProductImg}}"></a>
                     <div class="cart-main-product-info">
@@ -44,7 +44,7 @@
                         <label for="product-count">Количество:</label>
                         <input type="number" min="1" max="10" id="product-count" name="product-count" value="{{item.Count}}">
                     </div>
-                    <p class="product-cost">{{item.Cost}}<span class="ruble"> ₽</span></p>
+                    <p class="product-cost"><span class="cost">{{item.Cost}}</span><span class="ruble"> ₽</span></p>
                 </div>
             </div>
             {% endfor %}
@@ -52,19 +52,19 @@
         <div class="cart-info">
             <div class="cart-info-user">
                 <p class="balance"> Ваш баланс: {{cart.user.balance}} <span class="ruble">₽</span></p>
-                <p class="bonus"> Бонусов:{% if cart.user.bonus is None%} отсутствует карта{% else %} {{cart.user.bonus}} <span><img class="bonus-icon" src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span>{%endif%}</p>
+                <p class="bonus"> Бонусов:{% if cart.user.bonus is None%} отсутствует карта{% else %} <span id="user-bonuses">{{cart.user.bonus}}</span> <span><img class="bonus-icon" src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span>{%endif%}</p>
                 <div class="bonus-input">
-                    <input type="checkbox" name="useBonusCard" id="useBonusCard" class="cart-input" {% if cart.user.bonus is None %}disabled{% endif %}>
+                    <input type="checkbox" name="useBonusCard" id="useBonusCard" class="cart-input" {% if cart.user.bonus is None %}disabled {% else %} onClick="updateCost()"{% endif %}>
                     <label for="useBonusCard">Использовать бонусную карту</label>
                 </div>
             </div>
             <div class="cart-info-money">
-                <p class="yourcart">Ваша корзина: <span>n товаров</span></p>
-                <p class="cost">Товары: <span>0<span class="ruble"> ₽</span></span></p>
-                <p class="bonus">Бонусы: <span>0<img class="bonus-icon" src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span></p>
+                <p class="yourcart">Ваша корзина:</p>
+                <p class="cost">Товары: <span><span id="num">0</span><span class="ruble"> ₽</span></span></p>
+                <p class="bonus">Бонусы: <span><span id="num">0</span><img class="bonus-icon" src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span></p>
             </div>
             <div class="cart-info-buy">
-                <p class="sum">Сумма: <span>0<span class="ruble"> ₽</span></span></p>
+                <p class="sum">Сумма: <span id="num">0<span class="ruble"> ₽</span></span></p>
                 <select name="deliveryType" id="deliveryType" onChange="optionChange(this)">
                     <option value="">Выберите тип доставки</option>
                     <option value="self-delivery">Самовывоз</option>

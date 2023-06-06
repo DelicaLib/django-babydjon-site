@@ -23,7 +23,7 @@ def setUserSettings(userId: int, fullname: str, email: str, phoneNumber : str, a
     for i in models.Buyer.objects.raw(f"select * from [Buyer] where [Id] = {userId}"):
         user = i
     
-    if password == i.Password:
+    if password == user.Password:
         if fullname != "":
             connection.cursor().execute(f"update [Buyer] set [FullName]='{ fullname }' where [Id] = {userId} ")
         if email != "":
@@ -74,7 +74,7 @@ def getCartData(buyerId: int):
     sqlMoney = """
     select
 	[Buyer].[Balance],
-	[BonusCard].[Number]
+	[BonusCard].[Bonus]
 	from [Buyer]
 	left join [BonusCard] on (
 		([BonusCard].[Number] = [Buyer].[BonusCardNumber]))
@@ -123,3 +123,45 @@ def deleteProductsFromCart(productsId, buyerId : int):
     productsId[len(productsId) - 1] = productsId[len(productsId) - 1].replace("]","")
     deletedCount = connection.cursor().execute(sqlQuery.format(str(",".join(productsId)), buyerId)).rowcount
     return deletedCount
+
+def getSumCostInCart(productsId : list, buyerId : int):
+    sqlQuery = """select sum([Product].[Cost] * [Cart].[Count]) 
+from [Product] 
+join [Cart] 
+    on ([Cart].[Product] = [Product].[Id] and 
+        [Product].[Id] in ({0}) 
+        and [Cart].[Buyer] = {1})"""
+    sumCost = connection.cursor().execute(sqlQuery.format(str(",".join(map(str,productsId))), buyerId)).fetchone()[0]
+    return sumCost
+
+def getBonusCardBalance(buyerId : int):
+    sqlQuery = """declare @BonusCardNumber int
+
+set @BonusCardNumber = (select [Buyer].[BonusCardNumber] from [Buyer] where [Id] = {0})
+if (@BonusCardNumber is not null)
+begin
+	select concat('-', (select [BonusCard].[Bonus] from [BonusCard] where [Number] = @BonusCardNumber))
+end
+else
+begin
+	select 'отсутстует карта'
+end"""
+    message = connection.cursor().execute(sqlQuery.format(buyerId)).fetchone()[0]
+    return message
+
+def updateCartCount(buyerId : int, productId : int, count : int):
+    result = {"cost" : 0, 
+              "updateCount" : 0}
+    sqlUpdateQuery = """update [Cart] 
+set [Count] = {0}
+    where [Buyer] = {1} and 
+        [Product] = {2}"""
+    sqlGetCostQuery = """select [Product].[Cost] * [Cart].[Count] 
+from [Cart]
+join [Product] on (
+	[Product].[Id] = [Cart].[Product] and
+	[Cart].[Product] = {0} and
+	[Cart].[Buyer] = {1})"""
+    result["updateCount"] = connection.cursor().execute(sqlUpdateQuery.format(count, buyerId, productId)).rowcount
+    result["cost"] = int(connection.cursor().execute(sqlGetCostQuery.format(productId, buyerId)).fetchone()[0])
+    return result

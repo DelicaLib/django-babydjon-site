@@ -1,8 +1,9 @@
 from django.db import models
 
 class Category(models.Model):
-    Title = models.CharField(max_length=30, db_column="Title")
-    Subcategory = models.CharField(max_length=30, db_column="Subcategory")
+    Id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='Id', db_index=True, db_column="Id")
+    Title = models.CharField(max_length=30, db_column="Title", default="default title")
+    Subcategory = models.CharField(max_length=30, db_column="Subcategory", default="default Subcategory")
     
     def __str__(self):
         return self.Title
