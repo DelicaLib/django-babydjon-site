@@ -25,3 +25,56 @@ function checkAll() {
         $("input[name='check-one'").prop("checked", false)
     }
 }
+
+/-----------------------------------------------delete checked products---------------------------------/
+function deleteChecked() {
+    var allChecked = []
+    $("input[name='check-one']:checked").each(function() {
+        allChecked.push(Number($(this).prop("id").replace("check_id", "")))
+    })
+    var csrf_token = $("#delete-checked input").val()
+    if (allChecked.length == 0) {
+        return -1
+    }
+    $.ajax({
+        url: "/cart/deleteProductsFromCart/",
+        method: "POST",
+        dataType: "json",
+        data: {productsId: '[' + allChecked + ']', csrfmiddlewaretoken: csrf_token},
+        success: function(response) {
+            console.log(response.status, "Удалено " + response.deleted + " товаров из корзины")
+            allChecked.forEach(i => {
+                $("#product_id"+i).remove()
+            });
+            if ($(".cart-main-product").length == 0) {
+                location.reload()
+            }
+        },
+        error: function(response) {
+            console.log(response.responseJSON.errors)
+        }
+
+    })
+    console.log(allChecked)
+}
+
+function deleteOne(productId) {
+    var csrf_token = $("#delete_id"+productId+" input").val()
+    $.ajax({
+        url: "/cart/deleteOneProductFromCart/",
+        method: "POST",
+        dataType: "json",
+        data: {productId: Number(productId), csrfmiddlewaretoken: csrf_token},
+        success: function(response) {
+            console.log(response.status, "Удалено")
+            $("#product_id"+productId).remove()
+            if ($(".cart-main-product").length == 0) {
+                location.reload()
+            }
+        },
+        error: function(response) {
+            console.log(response.responseJSON.errors)
+        }
+
+    })
+}

@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from shop.models import Category
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse, Http404
 import shop.contexts as contexts
 import shop.database as myDatabase
 
@@ -122,3 +121,30 @@ def registration(request):
     context["currPage"] = request.session["loginContext"]
     del request.session["loginContext"]
     return render(request, "shop/registration.html", context)
+# ----------------------------------------------for Ajax-----------------------------------
+
+def deleteOneProductFromCart(request):
+    if request.method == "POST" and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        try:
+            deletedCount = myDatabase.deleteOneProductFromCart(request.POST["productId"], request.session["userId"])
+        except:
+            return JsonResponse({"errors" : "Ошибка при удалении"}, status=500)
+        if deletedCount != 0:
+            return JsonResponse({"status" : "OK"}, status=200)
+        else:
+            return JsonResponse({"errors" : "Ошибка при удалении"}, status=400)
+    else:
+        raise Http404()
+    
+def deleteProductsFromCart(request):
+    if request.method == "POST" and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        try:
+            deletedCount = myDatabase.deleteProductsFromCart(request.POST["productsId"], request.session["userId"])
+        except:
+            return JsonResponse({"errors" : "Ошибка при удалении"}, status=500)
+        if deletedCount != 0:
+            return JsonResponse({"status" : "OK", "deleted" : deletedCount}, status=200)
+        else:
+            return JsonResponse({"errors" : "Ошибка при удалении"}, status=400)
+    else:
+        raise Http404()

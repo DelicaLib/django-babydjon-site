@@ -20,22 +20,23 @@
                     <input type="checkbox" name="check-all" id="check-all" class="cart-input" onClick="checkAll()">
                     <label for="check-all">Выбрать всё</label>
                 </div>
-                <button class="delete-checked" id="delete-checked">
+                <button class="delete-checked" id="delete-checked" onClick="deleteChecked()">
+                    {% csrf_token %}
                     <span>Удалить выбранные</span>
                 </button>   
             </div>
             {% for item in cart.data%}
-            <div class="cart-main-product" id="product&id={{item.ProductId}}">
+            <div class="cart-main-product" id="product_id{{item.ProductId}}">
                 <div class="cart-main-product-left">
                     <div class="product-check">
-                        <input type="checkbox" name="check-one" id="check&id={{item.ProductId}}" class="cart-input">
+                        <input type="checkbox" name="check-one" id="check_id{{item.ProductId}}" class="cart-input">
                     </div>
                     <a class="cart-main-product-image" href="/product/{{item.ProductId}}"><img src="/media/{{item.ProductImg}}"></a>
                     <div class="cart-main-product-info">
                         <div class="top-info">
                             <h2 class="product-title">{{item.ProductTitle}}</h2>
                         </div>
-                        <button class="delete-current" id="delete&id={{item.ProductId}}">Удалить</button>
+                        <button class="delete-current" id="delete_id{{item.ProductId}}" onClick="deleteOne({{item.ProductId}})">{% csrf_token %}Удалить</button>
                     </div>
                 </div>
                 <div class="cart-main-product-right">

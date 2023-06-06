@@ -106,3 +106,20 @@ def getOfflineAddresses():
     for i in rawAddresses:
         addresses.append(i[0])
     return addresses
+
+def deleteOneProductFromCart(productId : int, buyerId : int):
+    sqlQuery = """delete [Cart] 
+    where [Product] = {0} and
+    [Buyer] = {1}"""
+    deletedCount = connection.cursor().execute(sqlQuery.format(productId, buyerId)).rowcount
+    return deletedCount
+
+def deleteProductsFromCart(productsId, buyerId : int):
+    sqlQuery = """delete [Cart] 
+    where [Product] in ({0}) and
+    [Buyer] = {1}"""
+    productsId = str(productsId).split(",")
+    productsId[0] = productsId[0].replace("[","")
+    productsId[len(productsId) - 1] = productsId[len(productsId) - 1].replace("]","")
+    deletedCount = connection.cursor().execute(sqlQuery.format(str(",".join(productsId)), buyerId)).rowcount
+    return deletedCount
