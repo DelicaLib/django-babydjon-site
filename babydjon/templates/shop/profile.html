@@ -83,6 +83,7 @@
                     {% endif %}
                 {% endif %}"> {{ user.BonusCardNumber.Type }} </span></p>
                 <p class="bonus-card-balance">Бонусы: {{ user.BonusCardNumber.Bonus }} <span><img src="{% static "icons/icon_bonus.png" %}" alt="Bonus"></span></p>
+                <p class="bonus-card-balance">Бонусов потрачено за всё время:{% if bonusMinus == None %} 0 {% else %} {{ bonusMinus }} {%endif%}</p>
             {% endif %}
         </div>
         {% if user.BonusCardNumber is None %}

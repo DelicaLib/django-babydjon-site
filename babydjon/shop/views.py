@@ -49,6 +49,7 @@ def profile(request):
             return HttpResponseRedirect("/profile/")
     context = profileContext.copy()
     context["user"] = myDatabase.getUserData(request.session["userId"])
+    context["bonusMinus"] = myDatabase.connection.cursor().execute(f"select sum([Order].[Bonuses]) from [Order] where [Order].[Buyer] = {request.session['userId']}").fetchone()[0]
     if "createCard" in request.POST:
         myDatabase.createBonusCard(context["user"].Id)
         return HttpResponseRedirect("/profile/")
